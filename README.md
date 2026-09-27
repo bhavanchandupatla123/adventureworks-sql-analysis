@@ -1,65 +1,96 @@
-# AdventureWorks SQL Product Analysis
+# AdventureWorks SQL Sales Analysis
 
-This portfolio project uses the AdventureWorks product dataset in MySQL to answer practical merchandising, pricing and data-quality questions. The repository now covers foundational filtering and sorting, followed by aggregate analysis and grouped commercial reporting.
+A progressive MySQL portfolio project analysing AdventureWorks product and internet-sales data. The project develops from data validation and filtering through joins, date cleaning, conditional analysis, subqueries, CTEs and advanced window functions.
 
 ## Project objective
 
-The analysis validates imported product data, identifies premium products, explores catalogue pricing, compares product colours and product lines, and builds focused shortlists for merchandising decisions.
+Transform raw product and sales records into reliable commercial insights covering catalogue quality, pricing, product performance, revenue contribution, shipping performance and monthly sales trends.
+
+## Dataset
+
+- **Source:** Microsoft AdventureWorks sample data
+- **Products:** 606 rows
+- **Internet sales:** 60,398 rows
+- **Core tables:** `products`, `factinternetsales`
+- **Database:** MySQL
+- **Development tool:** MySQL Workbench
 
 ## Skills demonstrated
 
 ### Day 1 — Filtering and sorting
 
-- `SELECT` and `FROM`
-- `WHERE` filters
-- `AND`, `OR` and logical parentheses
-- `IN` and `NOT IN`
-- `BETWEEN`
-- `DISTINCT`
-- `LIKE` with wildcards
-- `IS NULL` and `IS NOT NULL`
-- Single- and multi-column `ORDER BY`
-- `LIMIT`
-- CSV import and validation in MySQL Workbench
+- `SELECT`, `WHERE`, `DISTINCT`
+- `AND`, `OR`, `IN`, `NOT IN`
+- `BETWEEN`, `LIKE`, `NULL` handling
+- Multi-column `ORDER BY` and `LIMIT`
 
 ### Day 2 — Aggregation and grouped analysis
 
-- `COUNT`, `SUM`, `AVG`, `MIN` and `MAX`
+- `COUNT`, `SUM`, `AVG`, `MIN`, `MAX`
 - `COUNT(DISTINCT ...)`
-- Single- and multiple-column `GROUP BY`
-- Row filtering with `WHERE`
-- Group filtering with `HAVING`
-- Aggregate aliases and sorting
-- NULL handling in aggregate calculations
-- Text-to-decimal data-type validation
+- `GROUP BY` and `HAVING`
 - Commercial catalogue and pricing analysis
+- Text-to-decimal validation and missing-value handling
 
-## Business questions answered
+### Day 3 — Joins and reconciliation
 
-1. How many products were imported and how complete are the price and colour fields?
-2. Which are the highest-priced products above selected thresholds?
-3. Which valid product colours are available?
-4. Which products match Road, Mountain, Jersey and Helmet search criteria?
-5. What are the overall catalogue total, average, minimum and maximum prices?
-6. How do product volume and average price vary by colour?
-7. How do pricing and colour diversity vary by product line?
-8. Which colour groups meet minimum volume and average-price thresholds?
-9. Which groups contribute more than 10,000 in catalogue value?
-10. Which Road products meet grouped colour and price criteria?
-11. Which product lines are commercially significant based on volume, average price and catalogue value?
-12. Which premium Road and Mountain combinations form the strongest shortlist?
+- `INNER JOIN`, `LEFT JOIN` and self joins
+- Product-to-sales relationship analysis
+- Missing-key detection
+- Unsold-product identification
+- Sales and order aggregation after joins
+
+### Day 4 — Date cleaning and conditional analysis
+
+- `STR_TO_DATE()` and validated `DATETIME` columns
+- `DATEDIFF()` shipping calculations
+- `CASE WHEN` status classification
+- Conditional aggregation
+- Monthly operational KPI reporting
+- Safe percentage calculations with `NULLIF()`
+
+### Day 5 — Subqueries and CTEs
+
+- Scalar, correlated and multi-row subqueries
+- `EXISTS` and `NOT EXISTS`
+- Derived tables
+- Single and multiple CTEs
+- Recursive CTE month generation
+- Above-average product and product-line analysis
+
+### Day 6 — Advanced CTEs and window functions
+
+- `LAG()` for month-on-month comparison
+- `DENSE_RANK()` for product ranking
+- `NTILE(4)` for performance quartiles
+- Partitioned averages and contribution percentages
+- Running totals and explicit window frames
+- Three-month moving averages
+- Multi-stage analytical CTE pipelines
+
+## Featured business analyses
+
+- Top sales ranks within each product line
+- Product contribution to product-line revenue
+- Month-on-month sales difference and growth percentage
+- Cumulative sales progression
+- Rolling three-month trend analysis
+- Above- and below-average product classification
+- Product quartile segmentation
+- Shipping-speed classification and on-time order analysis
+- Unsold products and missing relationship keys
 
 ## Data-quality work
 
-During the analysis, `ListPrice` was found to have been imported as `TEXT`, with missing prices represented by empty strings. The field was validated, empty strings were converted to SQL `NULL`, and the column was converted to `DECIMAL(10,4)`. This allowed `MIN`, `MAX`, `AVG` and `SUM` to return reliable numeric results.
+The project identifies and resolves common import problems:
 
-## Dataset
-
-- Source: Microsoft AdventureWorks sample data
-- Table analysed: `products`
-- Records imported: 606
-- Database: MySQL
-- Tool: MySQL Workbench
+- `ListPrice` imported as text
+- Empty strings requiring conversion to SQL `NULL`
+- Date fields imported as text
+- Date parsing validated before conversion
+- New `DATETIME` fields created for reliable filtering and calculations
+- Safe-update constraints handled during controlled cleaning
+- Join keys checked for duplicates and unmatched records
 
 ## Repository structure
 
@@ -67,22 +98,49 @@ During the analysis, `ListPrice` was found to have been imported as `TEXT`, with
 adventureworks-sql-analysis/
 ├── README.md
 ├── SQL_Day1_Products_Practice.sql
-└── SQL_Day2_Aggregations_Practice.sql
+├── SQL_Day2_Aggregations_Practice.sql
+├── Day-3-Joins/
+│   ├── README.md
+│   └── SQL_Day3_Joins_Practice.sql
+├── Day-4-Date-Cleaning-and-CASE/
+│   ├── SQL_Day4_Date_Cleaning_CASE_Practice.sql
+│   └── results/
+├── Day-5-Subqueries-and-CTEs/
+│   ├── README.md
+│   └── SQL_Day5_Subqueries_and_CTEs_Practice.sql
+└── Day-6-Advanced-CTEs-and-Window-Functions/
+    ├── README.md
+    └── SQL_Day6_Advanced_CTEs_Window_Functions.sql
+```
+
+## Featured advanced workflow
+
+```text
+Raw transactions
+    → Aggregate to the required business grain
+    → Apply window functions
+    → Calculate KPIs and classifications
+    → Present decision-ready results
 ```
 
 ## How to run
 
-1. Import the AdventureWorks Products CSV into MySQL as `products`.
-2. Create or select the `adventureworks` schema.
-3. Confirm that `ListPrice` is a numeric column and missing values are stored as `NULL`.
-4. Open the required SQL practice file in MySQL Workbench.
-5. Execute individual statements with `Ctrl + Enter`.
+1. Create or select the `adventureworks` schema.
+2. Import the Products and FactInternetSales datasets.
+3. Run the data-type validation and cleaning queries before date-dependent analysis.
+4. Open the relevant SQL file in MySQL Workbench.
+5. Execute individual business questions with `Ctrl + Enter`.
 
-## Next steps
+## Portfolio value
 
-Future stages will extend the project with joins, subqueries, common table expressions, conditional logic and window functions.
+This project demonstrates the ability to move beyond writing isolated SQL statements. It shows how to structure multi-stage analysis, validate data quality, translate commercial questions into reporting logic and produce transparent, reusable KPI calculations.
+
+## Next step
+
+Use the cleaned MySQL model as the source for an interactive Power BI sales-performance dashboard.
 
 ## Author
 
 **Bhavan Chandupatla**  
-MSc Data Science, Coventry University
+MSc Data Science, Coventry University  
+Data Analyst | SQL | Power BI | Python | Excel
